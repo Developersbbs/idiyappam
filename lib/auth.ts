@@ -34,3 +34,13 @@ export async function getCurrentUserFromRequest(req: Request) {
 
   return verifySessionCookie(sessionCookie);
 }
+
+// For use in Server Components / Server Actions
+import { cookies } from "next/headers";
+
+export async function getCurrentUser() {
+  const cookieStore = await cookies();
+  const sessionCookie = cookieStore.get("auth_session")?.value;
+  if (!sessionCookie) return null;
+  return verifySessionCookie(sessionCookie);
+}

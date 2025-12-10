@@ -21,6 +21,7 @@ export default function TutorialsPage() {
                     <TabsList>
                         <TabsTrigger value="quickstart">Quick Start</TabsTrigger>
                         <TabsTrigger value="configuration">Configuration</TabsTrigger>
+                        <TabsTrigger value="templates">Templates</TabsTrigger>
                         <TabsTrigger value="integration">Integration</TabsTrigger>
                     </TabsList>
 
@@ -91,6 +92,69 @@ export default function TutorialsPage() {
                                     Go to <strong>Settings &gt; Form Schema</strong>. Define the fields you expect (e.g., 'email', 'age').
                                     The API will validate incoming data against this schema and reject invalid requests.
                                 </p>
+                            </CardContent>
+                        </Card>
+                    </TabsContent>
+
+                    <TabsContent value="templates" className="space-y-4">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Creating Mail Templates</CardTitle>
+                                <CardDescription>Design beautiful emails using HTML and dynamic placeholders.</CardDescription>
+                            </CardHeader>
+                            <CardContent className="space-y-2">
+                                <p>
+                                    Templates allow you to define the structure of the emails sent when a form is submitted.
+                                    You can create reusable templates in the <strong>Templates</strong> section or use Global System templates.
+                                </p>
+                            </CardContent>
+                        </Card>
+
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Dynamic Placeholders</CardTitle>
+                                <CardDescription>Inject form data into your email subject and body.</CardDescription>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                                <p>
+                                    Use the <code>{`{{key}}`}</code> syntax to insert values from your form submission.
+                                    The keys are <strong>case-insensitive</strong>.
+                                </p>
+                                <div className="grid gap-2 text-sm border p-4 rounded-md">
+                                    <div className="grid grid-cols-2 border-b pb-2 font-semibold">
+                                        <span>Placeholder</span>
+                                        <span>Matches Form Field</span>
+                                    </div>
+                                    <div className="grid grid-cols-2">
+                                        <code className="bg-muted px-1 rounded">{`{{name}}`}</code>
+                                        <span>name, Name, NAME</span>
+                                    </div>
+                                    <div className="grid grid-cols-2">
+                                        <code className="bg-muted px-1 rounded">{`{{email}}`}</code>
+                                        <span>email, Email</span>
+                                    </div>
+                                    <div className="grid grid-cols-2">
+                                        <code className="bg-muted px-1 rounded">{`{{message}}`}</code>
+                                        <span>message, msg, etc.</span>
+                                    </div>
+                                </div>
+                                <p className="text-muted-foreground text-sm">
+                                    Any field sent in your JSON payload can be accessed. If a field is missing, it will be replaced with an empty string.
+                                </p>
+                            </CardContent>
+                        </Card>
+
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Styling & Best Practices</CardTitle>
+                                <CardDescription>Ensure your emails look good in all clients.</CardDescription>
+                            </CardHeader>
+                            <CardContent className="space-y-2">
+                                <ul className="list-disc list-inside space-y-1 text-sm">
+                                    <li><strong>Use Inline CSS:</strong> Email clients (like Gmail) often strip <code>&lt;style&gt;</code> tags. Write styles directly on elements (e.g., <code>&lt;div style=&quot;color:blue;&quot;&gt;</code>).</li>
+                                    <li><strong>Tables for Layout:</strong> For maximum compatibility, use generic HTML tables for structure instead of Flexbox/Grid.</li>
+                                    <li><strong>Images:</strong> Use absolute URLs for images.</li>
+                                </ul>
                             </CardContent>
                         </Card>
                     </TabsContent>

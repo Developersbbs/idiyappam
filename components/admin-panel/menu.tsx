@@ -70,7 +70,7 @@ export function Menu({ isOpen }: MenuProps) {
                 <p className="pb-2"></p>
               )}
               {menus.map(
-                ({ href, label, icon: Icon, active, submenus }, index) =>
+                ({ href, label, icon: Icon, active, submenus, comingSoon }, index) =>
                   !submenus || submenus.length === 0 ? (
                     <div className="w-full" key={index}>
                       <TooltipProvider disableHoverableContent>
@@ -80,30 +80,54 @@ export function Menu({ isOpen }: MenuProps) {
                               variant={
                                 (active === undefined &&
                                   pathname.startsWith(href)) ||
-                                active
+                                  active
                                   ? "secondary"
                                   : "ghost"
                               }
                               className="w-full justify-start h-10 mb-1"
-                              asChild
+                              asChild={!comingSoon}
+                              onClick={(e) => {
+                                if (comingSoon) {
+                                  e.preventDefault();
+                                  toast("Coming Soon 🚀", {
+                                    icon: "🚧",
+                                  });
+                                }
+                              }}
                             >
-                              <Link href={href}>
-                                <span
-                                  className={cn(isOpen === false ? "" : "mr-4")}
-                                >
-                                  <Icon size={18} />
-                                </span>
-                                <p
-                                  className={cn(
-                                    "max-w-[200px] truncate",
-                                    isOpen === false
-                                      ? "-translate-x-96 opacity-0"
-                                      : "translate-x-0 opacity-100"
-                                  )}
-                                >
-                                  {label}
-                                </p>
-                              </Link>
+                              {comingSoon ? (
+                                <div className="flex items-center w-full cursor-not-allowed opacity-70">
+                                  <span className={cn(isOpen === false ? "" : "mr-4")}>
+                                    <Icon size={18} />
+                                  </span>
+                                  <p
+                                    className={cn(
+                                      "max-w-[200px] truncate",
+                                      isOpen === false
+                                        ? "-translate-x-96 opacity-0"
+                                        : "translate-x-0 opacity-100"
+                                    )}
+                                  >
+                                    {label}
+                                  </p>
+                                </div>
+                              ) : (
+                                <Link href={href}>
+                                  <span className={cn(isOpen === false ? "" : "mr-4")}>
+                                    <Icon size={18} />
+                                  </span>
+                                  <p
+                                    className={cn(
+                                      "max-w-[200px] truncate",
+                                      isOpen === false
+                                        ? "-translate-x-96 opacity-0"
+                                        : "translate-x-0 opacity-100"
+                                    )}
+                                  >
+                                    {label}
+                                  </p>
+                                </Link>
+                              )}
                             </Button>
                           </TooltipTrigger>
                           {isOpen === false && (

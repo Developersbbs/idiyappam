@@ -22,6 +22,7 @@ type Menu = {
   active?: boolean;
   icon: LucideIcon;
   submenus?: Submenu[];
+  comingSoon?: boolean;
 };
 
 type Group = {
@@ -44,12 +45,14 @@ export function getMenuList(pathname: string): Group[] {
         {
           href: "/app/mass-mailer",
           label: "Mass Mailer",
-          icon: Mail
+          icon: Mail,
+          comingSoon: true
         },
         {
           href: "/app/archives",
           label: "Archives",
-          icon: Tag
+          icon: Tag,
+          comingSoon: true
         },
         {
           href: "/app/templates",
