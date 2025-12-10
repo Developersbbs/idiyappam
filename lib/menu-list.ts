@@ -6,7 +6,8 @@ import {
   SquarePen,
   LayoutGrid,
   LucideIcon,
-  BookOpen
+  BookOpen,
+  Mail
 } from "lucide-react";
 
 type Submenu = {
@@ -41,9 +42,9 @@ export function getMenuList(pathname: string): Group[] {
           active: pathname === "/app" || pathname.startsWith("/app/projects"),
         },
         {
-          href: "/app/workspace",
-          label: "Workspace",
-          icon: SquarePen
+          href: "/app/mass-mailer",
+          label: "Mass Mailer",
+          icon: Mail
         },
         {
           href: "/app/archives",
