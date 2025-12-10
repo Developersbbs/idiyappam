@@ -12,6 +12,7 @@ import Project from "@/modals/Projects";
 import { SmtpForm } from "@/components/projects/smtp-form";
 import { DomainList } from "@/components/projects/domain-list";
 import { FormBuilder } from "@/components/projects/form-builder";
+import { TemplateSelector } from "@/components/projects/template-selector";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
@@ -125,20 +126,36 @@ export default async function SettingsPage({ params }: SettingsPageProps) {
                 </TabsContent>
 
                 <TabsContent value="smtp">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>SMTP Settings</CardTitle>
-                            <CardDescription>
-                                Configure the email server used to send form submissions.
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <SmtpForm
-                                projectId={id}
-                                initialData={serializedProject.smtpSettings}
-                            />
-                        </CardContent>
-                    </Card>
+                    <div className="space-y-6">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Email Template</CardTitle>
+                                <CardDescription>
+                                    Select the HTML template to use for email notifications.
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <TemplateSelector
+                                    projectId={id}
+                                    initialTemplateId={serializedProject.emailTemplateId}
+                                />
+                            </CardContent>
+                        </Card>
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>SMTP Settings</CardTitle>
+                                <CardDescription>
+                                    Configure the email server used to send form submissions.
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <SmtpForm
+                                    projectId={id}
+                                    initialData={serializedProject.smtpSettings}
+                                />
+                            </CardContent>
+                        </Card>
+                    </div>
                 </TabsContent>
             </Tabs>
         </ContentLayout>

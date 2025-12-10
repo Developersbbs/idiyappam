@@ -55,6 +55,51 @@ export default async function ProjectPage({ params }: PageProps) {
   const deliveryRate = totalLast24h ? (deliveredLast24h / totalLast24h) * 100 : null;
   const bounceRate = totalLast24h ? (bouncedLast24h / totalLast24h) * 100 : null;
 
+  // Compute 7-day traffic analytics
+  const sevenDaysAgo = new Date();
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
+  sevenDaysAgo.setHours(0, 0, 0, 0);
+
+  const trafficLogs = await MailLog.aggregate([
+    {
+      $match: {
+        projectId: project._id,
+        createdAt: { $gte: sevenDaysAgo },
+      },
+    },
+    {
+      $group: {
+        _id: {
+          $dateToString: { format: "%Y-%m-%d", date: "$createdAt" },
+        },
+        total: { $sum: 1 },
+        failed: {
+          $sum: {
+            $cond: [{ $in: ["$event", ["bounced", "blocked", "spam"]] }, 1, 0],
+          },
+        },
+      },
+    },
+    { $sort: { _id: 1 } },
+  ]);
+
+  // Fill in missing days
+  const trafficData: { date: string; total: number; failed: number }[] = [];
+  for (let i = 0; i < 7; i++) {
+    const d = new Date();
+    d.setDate(d.getDate() - (6 - i));
+    const dateStr = d.toISOString().split("T")[0];
+    const dayLog = trafficLogs.find((l) => l._id === dateStr) || { total: 0, failed: 0 };
+    trafficData.push({ date: dateStr, ...dayLog });
+  }
+
+  // Calculate generic API usage from logs (as proxy)
+  const totalRequests = await MailLog.countDocuments({ projectId: project._id });
+  const totalErrors = await MailLog.countDocuments({
+    projectId: project._id,
+    event: { $in: ["bounced", "blocked", "spam"] }
+  });
+
   return (
     <ContentLayout title={project.name}>
       {/* Header: project title + tabs */}
@@ -76,6 +121,7 @@ export default async function ProjectPage({ params }: PageProps) {
               Logs
             </Button>
           </Link>
+
           <Link href={`/app/projects/${id}/settings`}>
             <Button
               type="button"
@@ -132,26 +178,35 @@ export default async function ProjectPage({ params }: PageProps) {
             <div className="flex items-center justify-between mb-3">
               <div>
                 <h3 className="text-sm font-semibold">Email traffic</h3>
-                <p className="text-xs text-muted-foreground">Last 7 days (sent vs failed)</p>
+                <p className="text-xs text-muted-foreground">Last 7 days</p>
               </div>
               <span className="rounded-full border border-border px-2 py-0.5 text-[11px] text-muted-foreground">
-                Sample data
+                Realtime
               </span>
             </div>
 
             {/* Simple bar graph style using pure CSS blocks */}
             <div className="flex items-end gap-2 h-32 mt-3">
-              {[60, 80, 55, 90, 75, 100, 70].map((value, i) => (
-                <div key={i} className="flex-1 flex flex-col items-center gap-1">
-                  <div className="w-full rounded-md bg-muted/60 overflow-hidden">
-                    <div
-                      className="bg-primary/80 w-full rounded-md transition-all"
-                      style={{ height: `${value}%` }}
-                    />
+              {trafficData.map((day, i) => {
+                const heightPercent = Math.min(100, Math.max(5, (day.total / (Math.max(...trafficData.map(d => d.total)) || 1)) * 100));
+                return (
+                  <div key={day.date} className="flex-1 flex flex-col items-center gap-1 group relative">
+                    <div className="w-full rounded-md bg-muted/60 overflow-hidden relative h-full flex items-end">
+                      <div
+                        className="bg-primary/80 w-full rounded-md transition-all hover:bg-primary"
+                        style={{ height: `${heightPercent}%` }}
+                      />
+                    </div>
+                    <span className="text-[10px] text-muted-foreground">{day.date.split('-').slice(1).join('/')}</span>
+                    {/* Tooltip */}
+                    <div className="absolute bottom-full mb-2 hidden group-hover:block bg-popover text-popover-foreground text-xs p-2 rounded shadow-lg whitespace-nowrap z-10 border">
+                      <p className="font-semibold">{day.date}</p>
+                      <p>Total: {day.total}</p>
+                      <p>Failed: {day.failed}</p>
+                    </div>
                   </div>
-                  <span className="text-[10px] text-muted-foreground">D{i + 1}</span>
-                </div>
-              ))}
+                )
+              })}
             </div>
           </div>
 
@@ -221,19 +276,19 @@ export default async function ProjectPage({ params }: PageProps) {
                   High level breakdown of API calls for this project.
                 </p>
               </div>
-              <span className="rounded-full border border-border px-2 py-0.5 text-[11px] text-muted-foreground">
-                Coming soon
+              <span className="rounded-full border border-border px-2 py-0.5 text-[11px] text-emerald-500/10 text-emerald-500">
+                Live
               </span>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
               <div>
                 <p className="text-muted-foreground mb-1">Total requests</p>
-                <p className="text-sm font-semibold">4,921</p>
+                <p className="text-sm font-semibold">{totalRequests.toLocaleString()}</p>
               </div>
               <div>
                 <p className="text-muted-foreground mb-1">Errors</p>
-                <p className="text-sm font-semibold">32</p>
+                <p className="text-sm font-semibold text-red-500">{totalErrors.toLocaleString()}</p>
               </div>
               <div>
                 <p className="text-muted-foreground mb-1">Avg. latency</p>

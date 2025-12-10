@@ -71,6 +71,11 @@ export async function PATCH(
             updateData.formSchema = body.formSchema;
         }
 
+        if (body.emailTemplateId !== undefined) {
+            // Allow null to clear it
+            updateData.emailTemplateId = body.emailTemplateId;
+        }
+
         updateData.updatedAt = new Date();
 
         const project = await Project.findOneAndUpdate(

@@ -3,6 +3,7 @@ import { connectDB } from "@/lib/db";
 import Project from "@/modals/Projects";
 import Submission from "@/modals/Submissions";
 import MailLog from "@/modals/MailLog";
+import Template from "@/modals/Templates";
 import { sendEmail } from "@/lib/mail";
 import { checkSpam } from "@/lib/spam";
 import { validateAndSanitize } from "@/lib/validation";
@@ -131,18 +132,44 @@ export async function POST(
         // 6. Send Email
         if (project.smtpSettings && project.smtpSettings.host) {
             try {
-                const fields = Object.entries(sanitizedData)
-                    .map(([key, value]) => `<b>${key}:</b> ${value}`)
-                    .join("<br>");
-
                 const to = project.smtpSettings.toEmail || project.smtpSettings.username || "";
-                const subject = `New Submission for ${project.name}`;
+
+                // Determine Subject and HTML Content
+                let subject = `New Submission for ${project.name}`;
+                let html = "";
+
+                if (project.emailTemplateId) {
+                    try {
+                        const template = await Template.findById(project.emailTemplateId);
+                        // Render Subject
+                        subject = template.subject.replace(/{{([^}]+)}}/g, (_: string, key: string) => {
+                            const cleanKey = key.trim();
+                            return sanitizedData[cleanKey] || sanitizedData[cleanKey.toLowerCase()] || "";
+                        });
+
+                        // Render HTML Content
+                        html = template.content.replace(/{{([^}]+)}}/g, (_: string, key: string) => {
+                            const cleanKey = key.trim();
+                            return sanitizedData[cleanKey] || sanitizedData[cleanKey.toLowerCase()] || "";
+                        });
+                    } catch (err) {
+                        console.error("Failed to load template", err);
+                    }
+                }
+
+                // Fallback to default if no template or empty HTML
+                if (!html) {
+                    const fields = Object.entries(sanitizedData)
+                        .map(([key, value]) => `<b>${key}:</b> ${value}`)
+                        .join("<br>");
+                    html = `<h2>New Form Submission</h2><p>${fields}</p>`;
+                }
 
                 const info = await sendEmail(project.smtpSettings, {
                     to,
                     subject,
                     text: JSON.stringify(sanitizedData, null, 2),
-                    html: `<h2>New Form Submission</h2><p>${fields}</p>`,
+                    html,
                 });
 
                 // Log successful delivery event

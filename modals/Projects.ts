@@ -24,8 +24,14 @@ const ProjectSchema = new mongoose.Schema({
         options: { type: [String] },
         placeholder: { type: String },
     }],
+    emailTemplateId: { type: mongoose.Schema.Types.ObjectId, ref: "Template" }, // Active template for emails
     isActive: { type: Boolean, default: true },
     updatedAt: { type: Date, default: Date.now },
 });
+
+// Force model recompilation in dev to pick up schema changes
+if (process.env.NODE_ENV === "development" && mongoose.models.Project) {
+    delete mongoose.models.Project;
+}
 
 export default mongoose.models.Project || mongoose.model('Project', ProjectSchema);

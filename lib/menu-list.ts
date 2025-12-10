@@ -49,6 +49,11 @@ export function getMenuList(pathname: string): Group[] {
           href: "/app/archives",
           label: "Archives",
           icon: Tag
+        },
+        {
+          href: "/app/templates",
+          label: "Templates",
+          icon: BookOpen
         }
       ]
     },
