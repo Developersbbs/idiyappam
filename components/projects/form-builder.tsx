@@ -30,9 +30,9 @@ const fieldSchema = z.object({
     id: z.string().min(1, "ID is required").regex(/^[a-zA-Z0-9_]+$/, "Alphanumeric only"),
     label: z.string().min(1, "Label is required"),
     type: z.enum(["text", "email", "number", "textarea", "checkbox", "select"]),
-    required: z.boolean().default(false),
+    required: z.boolean(),
     placeholder: z.string().optional(),
-    options: z.array(z.string()).optional(), // For select
+    options: z.array(z.string()), // For select
 });
 
 const schemaSchema = z.object({
@@ -54,6 +54,7 @@ export function FormBuilder({ projectId, initialSchema = [] }: FormBuilderProps)
         defaultValues: {
             formSchema: initialSchema.map(f => ({
                 ...f,
+                required: f.required ?? false,
                 options: f.options || [], // Ensure options is array
             })),
         },
@@ -192,7 +193,7 @@ export function FormBuilder({ projectId, initialSchema = [] }: FormBuilderProps)
                 <Button
                     type="button"
                     variant="outline"
-                    onClick={() => append({ id: "", label: "", type: "text", required: false, placeholder: "" })}
+                    onClick={() => append({ id: "", label: "", type: "text", required: false, placeholder: "", options: [] })}
                     className="w-full"
                 >
                     <Plus className="h-4 w-4 mr-2" />

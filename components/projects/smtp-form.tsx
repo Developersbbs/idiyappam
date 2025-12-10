@@ -20,10 +20,10 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 const smtpSchema = z.object({
     host: z.string().min(1, "Host is required"),
-    port: z.coerce.number().min(1, "Port is required"),
+    port: z.number().min(1, "Port is required"),
     username: z.string().optional(),
     password: z.string().optional(),
-    secure: z.boolean().default(false),
+    secure: z.boolean(),
     fromEmail: z.string().email("Invalid email").optional().or(z.literal("")),
     toEmail: z.string().email("Invalid email").optional().or(z.literal("")),
 });
@@ -94,7 +94,15 @@ export function SmtpForm({ projectId, initialData }: SmtpFormProps) {
                             <FormItem>
                                 <FormLabel>Port</FormLabel>
                                 <FormControl>
-                                    <Input type="number" placeholder="587" {...field} />
+                                    <Input
+                                        type="number"
+                                        placeholder="587"
+                                        {...field}
+                                        onChange={e => {
+                                            const val = e.target.value === '' ? 0 : Number(e.target.value);
+                                            field.onChange(val);
+                                        }}
+                                    />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>

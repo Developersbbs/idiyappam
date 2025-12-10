@@ -21,6 +21,7 @@ export default function LoginPage() {
             ) : (
               <Image src="/assets/logo/idiyappam-logo-light.png" alt="Logo" width={72} height={28} />
             )}
+            <p className="text-xl font-semibold">Idiyappam</p>
           </Link>
           <Button variant="outline" size="icon" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
             <Sun className="hidden dark:block rotate-90 scale-0 transition-transform ease-in-out duration-500 dark:rotate-0 dark:scale-100" />
@@ -34,10 +35,12 @@ export default function LoginPage() {
         </div>
       </div>
       <div className="bg-muted relative hidden lg:block">
-        <img
-          src="/placeholder.svg"
-          alt="Image"
-          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+        <Image
+          src="/assets/login-feature-bg.png"
+          alt="Secure Email Infrastructure"
+          fill
+          className="absolute inset-0 h-full w-full object-cover"
+          priority
         />
       </div>
     </div>

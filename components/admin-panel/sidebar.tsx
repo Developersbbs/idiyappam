@@ -38,12 +38,13 @@ export function Sidebar() {
           variant="link"
           asChild
         >
-          <Link href="/dashboard" className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2">
             {theme === "dark" ? (
-              <Image src="/assets/logo/idiyappam-logo-dark.png" alt="Logo" width={50} height={30} className="object-contain" />
+              <Image src="/assets/logo/idiyappam-logo-dark.png" alt="Logo" width={32} height={28} className="object-contain" />
             ) : (
-              <Image src="/assets/logo/idiyappam-logo-light.png" alt="Logo" width={50} height={30} className="object-contain" />
+              <Image src="/assets/logo/idiyappam-logo-light.png" alt="Logo" width={32} height={28} className="object-contain" />
             )}
+            <p className="text-2xl font-semibold">Idiyappam</p>
           </Link>
         </Button>
         <Menu isOpen={getOpenState()} />
