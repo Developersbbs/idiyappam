@@ -13,7 +13,7 @@ const CODE_EXAMPLES = {
     "to": "user@example.com",
     "from": "noreply@myapp.com",
     "subject": "Hello world",
-    "text": "Sent securely with SBBS Mailer"
+    "text": "Sent securely with Idiyappam"
   }'`,
     react: `const handleSubmit = async (data) => {
   const response = await fetch('https://sbbs-mailer.com/api/forms/abc-123/submit', {
@@ -57,7 +57,7 @@ export default function DeveloperSection() {
                                 Built for developers
                             </h2>
                             <p className="text-lg text-muted-foreground mb-8">
-                                SBBS Mailer plugs into your existing stack with minimal friction. Use simple HTTP endpoints, clean TypeScript types and clear error responses.
+                                Idiyappam plugs into your existing stack with minimal friction. Use simple HTTP endpoints, clean TypeScript types and clear error responses.
                             </p>
                             <ul className="space-y-4">
                                 {[

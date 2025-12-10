@@ -21,7 +21,7 @@ export default function Footer() {
                 <div className="border-t border-border/50 pt-12 flex flex-col md:flex-row justify-between items-center gap-6">
 
                     <div className="flex flex-col gap-2 md:items-start items-center">
-                        <div className="font-bold text-xl">SBBS Mailer</div>
+                        <div className="font-bold text-xl">Idiyappam</div>
                         <p className="text-sm text-muted-foreground">© 2025 SBBS Inc. All rights reserved.</p>
                     </div>
 

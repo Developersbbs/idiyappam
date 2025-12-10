@@ -1,6 +1,6 @@
-# SBBS Mailer – Landing Page Content Draft
+# Idiyappam – Landing Page Content Draft
 
-This document outlines the content and section structure for the SBBS Mailer marketing landing page. The UI will be implemented using **React** + your existing **admin layout** + **shadcn/ui** and **React Bits UI**–style components (cards, stats, steps, timelines, etc.).
+This document outlines the content and section structure for the Idiyappam marketing landing page. The UI will be implemented using **React** + your existing **admin layout** + **shadcn/ui** and **React Bits UI**–style components (cards, stats, steps, timelines, etc.).
 
 ---
 
@@ -17,7 +17,7 @@ This document outlines the content and section structure for the SBBS Mailer mar
 `Secure email infrastructure with real‑time spam intelligence`
 
 **Subheadline**  
-`SBBS Mailer helps teams send transactional emails safely, track delivery, and block threats before they reach inboxes.`
+`Idiyappam helps teams send transactional emails safely, track delivery, and block threats before they reach inboxes.`
 
 **Primary CTA**  
 - Label: `Start for free`
@@ -102,7 +102,7 @@ Use a **3-step React Bits steps component** with icons.
 - Text: `Create a project, copy your API key and choose how you want to send: SMTP or provider.`
 
 **Step 2 – Drop in the form endpoint**
-- Text: `Point your form to SBBS Mailer. We validate, sanitize and run spam checks on every submission.`
+- Text: `Point your form to Idiyappam. We validate, sanitize and run spam checks on every submission.`
 
 **Step 3 – Review logs & alerts**
 - Text: `Track deliveries, blocked attempts and quarantined messages in a single security‑first dashboard.`
@@ -172,7 +172,7 @@ Use a two-column layout:
 
 **Copy**
 - Title: `Built for developers`
-- Body: `SBBS Mailer plugs into your existing stack with minimal friction. Use simple HTTP endpoints, clean TypeScript types and clear error responses.`
+- Body: `Idiyappam plugs into your existing stack with minimal friction. Use simple HTTP endpoints, clean TypeScript types and clear error responses.`
 
 **Bullets**
 - `Next.js route examples`
@@ -214,10 +214,10 @@ Include a **React Bits pricing card** layout with:
 Use an **Accordion** component.
 
 Sample questions:
-1. `What is SBBS Mailer?`
+1. `What is Idiyappam?`
    - `A security‑focused mail gateway for form submissions and transactional emails.`
 2. `Do I have to change my current SMTP provider?`
-   - `No. You bring your own SMTP configuration; SBBS Mailer sits in front with spam and logging.`
+   - `No. You bring your own SMTP configuration; Idiyappam sits in front with spam and logging.`
 3. `How is spam & abuse handled?`
    - `We inspect IP, user agent, origin and content, and can block or quarantine suspicious messages per project.`
 4. `Where is my data stored?`

@@ -6,12 +6,12 @@ import { Plus, Minus } from 'lucide-react';
 
 const FAQS = [
     {
-        question: "What is SBBS Mailer?",
+        question: "What is Idiyappam?",
         answer: "A security‑focused mail gateway for form submissions and transactional emails. We sit between your forms and your SMTP provider to block spam, log threats, and give you full visibility."
     },
     {
         question: "Do I have to change my current SMTP provider?",
-        answer: "No. You bring your own SMTP configuration (Postmark, SES, SendGrid, etc.); SBBS Mailer acts as a secure proxy layer adding spam filtering and logging."
+        answer: "No. You bring your own SMTP configuration (Postmark, SES, SendGrid, etc.); Idiyappam acts as a secure proxy layer adding spam filtering and logging."
     },
     {
         question: "How is spam & abuse handled?",

@@ -14,7 +14,7 @@ export default function Steps() {
         },
         {
             title: "Drop in the form endpoint",
-            description: "Point your form to SBBS Mailer. We validate, sanitize and run spam checks on every submission.",
+            description: "Point your form to Idiyappam. We validate, sanitize and run spam checks on every submission.",
             icon: FileCode2
         },
         {

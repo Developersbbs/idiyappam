@@ -69,7 +69,7 @@ export default function Hero() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto"
         >
-          SBBS Mailer helps teams send transactional emails safely, track delivery, and block threats before they reach inboxes.
+          Idiyappam helps teams send transactional emails safely, track delivery, and block threats before they reach inboxes.
         </motion.p>
 
         {/* CTAs */}
