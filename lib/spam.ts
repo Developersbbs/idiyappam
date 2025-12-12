@@ -34,10 +34,25 @@ export async function checkSpam(input: SpamCheckInput): Promise<SpamCheckResult>
     // 1. Allowed Domain / Origin Check
     if (input.allowedDomains && input.allowedDomains.length > 0) {
         const originDomain = input.origin ? new URL(input.origin).hostname : null;
-        if (!originDomain || !input.allowedDomains.includes(originDomain)) {
+
+        // Normalize allowed domains to hostnames
+        const allowedHostnames = input.allowedDomains.map(d => {
+            try {
+                // If it contains protocol, parse as URL
+                if (d.startsWith("http://") || d.startsWith("https://")) {
+                    return new URL(d).hostname;
+                }
+                return d.trim();
+            } catch {
+                return d.trim();
+            }
+        });
+
+        if (!originDomain || !allowedHostnames.includes(originDomain)) {
             // Allow localhost for testing if needed, or strictly enforce
+            // We check against the RAW origin domain here
             if (originDomain !== 'localhost' && originDomain !== '127.0.0.1') {
-                return { isSpam: true, reason: "Origin not allowed" };
+                return { isSpam: true, reason: `Origin not allowed: ${originDomain}` };
             }
         }
     }
